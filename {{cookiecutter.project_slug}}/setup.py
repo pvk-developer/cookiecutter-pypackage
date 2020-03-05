@@ -3,30 +3,38 @@
 
 """The setup script."""
 
-from setuptools import setup, find_packages
+from setuptools import find_packages, setup
 
-with open('README.md') as readme_file:
-    readme = readme_file.read()
+try:
+    with open('README.md') as readme_file:
+        readme = readme_file.read()
 
-with open('HISTORY.md') as history_file:
-    history = history_file.read()
+except IOError:
+    readme = ''
 
-requirements = [
-    {%- if cookiecutter.command_line_interface|lower == 'click' %}'Click>=6.0',{%- endif %}
+
+try:
+    with open('HISTORY.md') as history_file:
+        history = history_file.read()
+
+except IOError:
+    history = ''
+
+install_requires = [
     {%- if cookiecutter.support_py2 == 'y' %}'six',{%- endif %}
 ]
 
-setup_requirements = [
+setup_requires = [
     'pytest-runner>=2.11.1',
 ]
 
-test_requirements = [
+test_requires = [
     'coverage>=4.5.1',
     'pytest>=3.4.2',
     'tox>=2.9.1',
 ]
 
-development_requirements = [
+development_requires = [
     # general
     'bumpversion>=0.5.3',
     'pip>=9.0.1',
@@ -92,11 +100,11 @@ setup(
     },
     {%- endif %}
     extras_require={
-        'test': test_requirements,
-        'dev': development_requirements + test_requirements,
+        'test': test_requires,
+        'dev': development_requires + test_requires,
     },
     install_package_data=True,
-    install_requires=requirements,
+    install_requires=install_requires,
 {%- if cookiecutter.open_source_license in license_classifiers %}
     license='{{ cookiecutter.open_source_license }}',
 {%- endif %}
@@ -111,9 +119,9 @@ setup(
 {%- else %}
     python_requires='>=3.4',
 {%- endif %}
-    setup_requires=setup_requirements,
+    setup_requires=setup_requires,
     test_suite='tests',
-    tests_require=test_requirements,
+    tests_require=test_requires,
     url='https://github.com/{{ cookiecutter.github_orgname }}/{{ cookiecutter.project_slug }}',
     version='{{ cookiecutter.version }}',
     zip_safe=False,

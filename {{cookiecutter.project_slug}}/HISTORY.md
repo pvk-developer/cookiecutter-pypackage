@@ -2,4 +2,4 @@
 
 ## {{ cookiecutter.version.replace('-dev', '') }}
 
-* First release on PyPI.
+* Project Planning and PyPI register.
